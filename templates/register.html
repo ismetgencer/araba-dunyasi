@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block title %}Kullanıcı Kaydı - Araba Dünyası{% endblock %}
+{% block content %}
+<section class="form-page">
+    <div class="form-card" style="max-width: 420px;">
+        <h1>Yeni Kullanıcı Kaydı</h1>
+        <p>Admin panelinden yeni kullanıcı ekleyin.</p>
+        
+        {% if error %}
+        <div class="alert" style="background: #fee2e2; border-color: #fca5a5; color: #b91c1c; margin-bottom: 20px;">
+            {{ error }}
+        </div>
+        {% endif %}
+        
+        {% if success %}
+        <div class="alert success" style="margin-bottom: 20px;">
+            {{ success }}
+        </div>
+        {% endif %}
+        
+        <form method="post">
+            <div class="field-row">
+                <label for="username">Kullanıcı Adı</label>
+                <input type="text" id="username" name="username" required />
+            </div>
+            <div class="field-row">
+                <label for="email">E-posta</label>
+                <input type="email" id="email" name="email" />
+            </div>
+            <div class="field-row">
+                <label for="password">Şifre</label>
+                <input type="password" id="password" name="password" required />
+            </div>
+            <div class="field-row">
+                <button type="submit" class="button">Kayıt Yap</button>
+            </div>
+        </form>
+        
+        <p style="text-align: center; margin-top: 20px;">
+            <a href="{{ url_for('dashboard') }}">← Dashboard'a Dön</a>
+        </p>
+    </div>
+</section>
+{% endblock %}

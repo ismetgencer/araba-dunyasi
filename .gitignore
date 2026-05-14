@@ -1,0 +1,6 @@
+__pycache__/
+*.pyc
+ads.db
+uploads/
+venv/
+.env

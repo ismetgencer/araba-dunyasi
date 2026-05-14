@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+{% block title %}İlan Ver - Araba Dünyası{% endblock %}
+{% block content %}
+<section class="form-page">
+    <div class="form-card">
+        <h1>Araba İlanı Ver</h1>
+        <p>Aracınızı kolayca kaydedin. Fotoğraf ve iletişim bilgilerini ekleyin.</p>
+        <form id="carForm" action="{{ url_for('submit') }}" method="post" enctype="multipart/form-data">
+            <div class="field-row">
+                <label for="Marka">Marka</label>
+                <input type="text" id="Marka" name="Marka" required />
+            </div>
+            <div class="field-row">
+                <label for="Seri">Seri</label>
+                <input type="text" id="Seri" name="Seri" required />
+            </div>
+            <div class="field-row">
+                <label for="model">Model</label>
+                <input type="text" id="model" name="model" required />
+            </div>
+            <div class="field-row grid-2">
+                <div>
+                    <label for="year">Yıl</label>
+                    <input type="number" id="year" name="year" min="2010" max="2026" required />
+                </div>
+                <div>
+                    <label for="fuel">Yakıt Tipi</label>
+                    <select id="fuel" name="fuel" required>
+                        <option value="Benzin">Benzin</option>
+                        <option value="Benzin & LPG">Benzin & LPG</option>
+                        <option value="Dizel">Dizel</option>
+                        <option value="Elektrik">Elektrik</option>
+                        <option value="Hibrit">Hibrit</option>
+                    </select>
+                </div>
+            </div>
+            <div class="field-row">
+                <p class="radio-label">Vites Tipi</p>
+                <div class="radio-group">
+                    <label><input type="radio" name="transmission" value="Otomatik" required /> Otomatik</label>
+                    <label><input type="radio" name="transmission" value="Manuel" required /> Manuel</label>
+                </div>
+            </div>
+            <div class="field-row">
+                <label for="Kilometre">Kilometre</label>
+                <input type="number" id="Kilometre" name="Kilometre" min="0" required />
+            </div>
+            <div class="field-row grid-2">
+                <div>
+                    <label for="Kasatipi">Kasa Tipi</label>
+                    <input type="text" id="Kasatipi" name="Kasatipi" required />
+                </div>
+                <div>
+                    <label for="motorgücü">Motor Gücü</label>
+                    <input type="text" id="motorgücü" name="motorgücü" required />
+                </div>
+            </div>
+            <div class="field-row">
+                <label for="çekiş">Çekiş Tipi</label>
+                <select id="çekiş" name="çekiş" required>
+                    <option value="Önden Çekiş">Önden Çekiş</option>
+                    <option value="Arkadan İtiş">Arkadan İtiş</option>
+                    <option value="Dört Çeker">Dört Çeker</option>
+                </select>
+            </div>
+            <div class="field-row grid-2">
+                <div>
+                    <label for="color">Renk</label>
+                    <input type="text" id="color" name="color" required />
+                </div>
+                <div>
+                    <label for="price">Fiyat</label>
+                    <input type="number" id="price" name="price" min="0" required />
+                </div>
+            </div>
+            <div class="field-row">
+                <label for="description">Açıklama</label>
+                <textarea id="description" name="description" rows="4" required></textarea>
+            </div>
+            <div class="field-row">
+                <label for="images">Araç Resimleri</label>
+                <input type="file" id="images" name="images" accept="image/*" multiple />
+                <p class="hint">Her dosya 2MB’ı geçmemelidir.</p>
+            </div>
+            <div class="field-row">
+                <label for="email">İletişim E-posta</label>
+                <input type="email" id="email" name="email" placeholder="E-posta adresinizi girin" required />
+            </div>
+            <div class="field-row">
+                <button type="submit" class="button">İlanı Gönder</button>
+            </div>
+        </form>
+    </div>
+</section>
+{% endblock %}
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/form.js') }}"></script>
+{% endblock %}

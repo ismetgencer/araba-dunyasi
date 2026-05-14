@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}Giriş - Araba Dünyası{% endblock %}
+{% block content %}
+<section class="form-page">
+    <div class="form-card" style="max-width: 420px;">
+        <h1>Yönetici Girişi</h1>
+        <p>Admin paneline erişmek için giriş yapın.</p>
+        
+        {% if error %}
+        <div class="alert" style="background: #fee2e2; border-color: #fca5a5; color: #b91c1c; margin-bottom: 20px;">
+            {{ error }}
+        </div>
+        {% endif %}
+        
+        <form method="post">
+            <div class="field-row">
+                <label for="username">Kullanıcı Adı</label>
+                <input type="text" id="username" name="username" required />
+            </div>
+            <div class="field-row">
+                <label for="password">Şifre</label>
+                <input type="password" id="password" name="password" required />
+            </div>
+            <div class="field-row">
+                <button type="submit" class="button">Giriş Yap</button>
+            </div>
+        </form>
+        
+        <p style="text-align: center; color: #64748b; margin-top: 20px;">
+            Demo: admin / admin
+            <br /><br />
+            <span style="font-size: 0.9rem;">
+                Yeni kullanıcılar sadece admin panelinden eklenebilir.
+            </span>
+        </p>
+    </div>
+</section>
+{% endblock %}

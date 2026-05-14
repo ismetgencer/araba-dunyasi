@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block title %}Sayfa Bulunamadı - Araba Dünyası{% endblock %}
+{% block content %}
+<div class="error-page">
+    <h1>404</h1>
+    <p>Aradığınız sayfa bulunamadı.</p>
+    <a class="button" href="{{ url_for('home') }}">Anasayfaya Dön</a>
+</div>
+{% endblock %}

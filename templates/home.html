@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}Anasayfa - Araba Dünyası{% endblock %}
+{% block content %}
+<div class="page-header">
+    <div>
+        <h1>Güncel Araç İlanları</h1>
+        <p>Beğendiğiniz aracı seçin, detaylarını inceleyin veya kendi ilanınızı verin.</p>
+    </div>
+    <form class="search-form" action="{{ url_for('home') }}" method="get">
+        <input type="search" name="q" placeholder="Marka, seri veya model ara" value="{{ query }}" aria-label="Ara" />
+        <button type="submit">Ara</button>
+    </form>
+</div>
+
+{% if query and cars|length == 0 %}
+<div class="alert info">"{{ query }}" için herhangi bir araç bulunamadı.</div>
+{% endif %}
+
+<div class="card-grid">
+    {% for car in cars %}
+    <article class="car-card">
+        <img src="{{ url_for('static', filename='images/' ~ car.images[0]) }}" alt="{{ car.brand }} {{ car.series }}" />
+        <div class="card-content">
+            <h2>{{ car.brand }} {{ car.series }}</h2>
+            <p class="car-model">{{ car.model }}</p>
+            <p class="car-summary">{{ car.summary }}</p>
+            <div class="meta-row">
+                <span>{{ car.year }} • {{ car.fuel }} • {{ car.transmission }}</span>
+                <strong>{{ car.price_text }}</strong>
+            </div>
+            <a class="button" href="{{ url_for('car_detail', slug=car.slug) }}">Detayları Gör</a>
+        </div>
+    </article>
+    {% endfor %}
+</div>
+{% endblock %}
