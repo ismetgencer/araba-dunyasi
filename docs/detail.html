@@ -53,11 +53,9 @@
                     <div class="detail-grid">
                         <div>
                             <div class="gallery">
-                                ${car.images.slice(0, 4).map(img => `
-                                    <div class="gallery-item">
-                                        <img src="images/${img}" alt="${car.brand}" />
-                                    </div>
-                                `).join('')}
+                                <div class="gallery-placeholder">
+                                    <p>${car.brand} ${car.series} görselleri</p>
+                                </div>
                             </div>
                         </div>
                         <div class="detail-info">

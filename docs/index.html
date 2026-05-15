@@ -59,7 +59,9 @@
                 const card = document.createElement('article');
                 card.className = 'car-card';
                 card.innerHTML = `
-                    <img src="images/${car.images[0]}" alt="${car.brand} ${car.series}" />
+                    <div class="car-image-placeholder">
+                        <span>${car.brand}</span>
+                    </div>
                     <div class="card-content">
                         <h2>${car.brand} ${car.series}</h2>
                         <p class="car-model">${car.model}</p>
