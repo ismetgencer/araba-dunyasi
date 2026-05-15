@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>İlan Ver - Araba Dünyası</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="site-header">
+        <div class="brand">
+            <a href="index.html">🚗 Araba Dünyası</a>
+        </div>
+        <nav class="main-nav">
+            <a href="index.html">Araçlar</a>
+            <a href="ads.html">İlanlar</a>
+            <a href="form.html">İlan Ver</a>
+        </nav>
+    </header>
+
+    <main class="site-main">
+        <div class="form-page">
+            <div class="form-card">
+                <h1>Yeni Araç İlanı Ver</h1>
+                <p style="color: #475569; margin-bottom: 28px;">Aracınızın detaylarını girin ve ilanınızı yayınlayın.</p>
+
+                <form id="carForm">
+                    <div class="field-row grid-2">
+                        <div>
+                            <label for="Marka">Marka *</label>
+                            <input type="text" id="Marka" name="Marka" placeholder="BMW, Mercedes, Renault..." required />
+                        </div>
+                        <div>
+                            <label for="series">Seri *</label>
+                            <input type="text" id="series" name="series" placeholder="5 Serisi, E-Klasse..." required />
+                        </div>
+                    </div>
+
+                    <div class="field-row">
+                        <label for="model">Model *</label>
+                        <input type="text" id="model" name="model" placeholder="525d xDrive Premium..." required />
+                    </div>
+
+                    <div class="field-row grid-2">
+                        <div>
+                            <label for="price">Fiyat (TL) *</label>
+                            <input type="number" id="price" name="price" placeholder="1425000" required min="0" />
+                        </div>
+                        <div>
+                            <label for="year">Yıl *</label>
+                            <input type="number" id="year" name="year" placeholder="2020" required min="2010" max="2026" />
+                        </div>
+                    </div>
+
+                    <div class="field-row grid-2">
+                        <div>
+                            <label for="Kilometre">Kilometre *</label>
+                            <input type="number" id="Kilometre" name="Kilometre" placeholder="50000" required min="0" />
+                        </div>
+                        <div>
+                            <label for="fuel">Yakıt *</label>
+                            <select id="fuel" name="fuel" required>
+                                <option value="">Seçin...</option>
+                                <option value="Benzin">Benzin</option>
+                                <option value="Dizel">Dizel</option>
+                                <option value="Benzin & LPG">Benzin & LPG</option>
+                                <option value="Elektrik">Elektrik</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="field-row grid-2">
+                        <div>
+                            <label for="transmission">Vites *</label>
+                            <select id="transmission" name="transmission" required>
+                                <option value="">Seçin...</option>
+                                <option value="Manuel">Manuel</option>
+                                <option value="Otomatik">Otomatik</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="motorgücü">Motor Gücü (hp)</label>
+                            <input type="text" id="motorgücü" name="motorgücü" placeholder="218 hp" />
+                        </div>
+                    </div>
+
+                    <div class="field-row grid-2">
+                        <div>
+                            <label for="body">Gövde Tipi *</label>
+                            <select id="body" name="body" required>
+                                <option value="">Seçin...</option>
+                                <option value="Sedan">Sedan</option>
+                                <option value="Hatchback">Hatchback</option>
+                                <option value="SUV">SUV</option>
+                                <option value="Coupe">Coupe</option>
+                                <option value="Minivan">Minivan</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="drive">Çekiş *</label>
+                            <select id="drive" name="drive" required>
+                                <option value="">Seçin...</option>
+                                <option value="Önden Çekiş">Önden Çekiş</option>
+                                <option value="Arkadan Çekiş">Arkadan Çekiş</option>
+                                <option value="4x4">4x4</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="field-row grid-2">
+                        <div>
+                            <label for="color">Renk *</label>
+                            <input type="text" id="color" name="color" placeholder="Beyaz, Siyah..." required />
+                        </div>
+                        <div>
+                            <label for="doors">Kapı Sayısı</label>
+                            <input type="number" id="doors" name="doors" placeholder="5" min="2" max="5" />
+                        </div>
+                    </div>
+
+                    <div class="field-row">
+                        <label for="summary">Açıklama *</label>
+                        <textarea id="summary" name="summary" placeholder="Aracınız hakkında kısa bir açıklama..." rows="4" required></textarea>
+                    </div>
+
+                    <div class="field-row">
+                        <label for="images">Fotoğraflar</label>
+                        <input type="file" id="images" name="images" multiple accept="image/*" />
+                        <p class="hint">Maksimum 5 fotoğraf, her biri 2MB'tan küçük olmalı.</p>
+                    </div>
+
+                    <div class="field-row">
+                        <label for="guarantee">Garanti Durumu</label>
+                        <div class="radio-group">
+                            <label class="radio-label">
+                                <input type="radio" name="guarantee" value="Evet"> Garantili
+                            </label>
+                            <label class="radio-label">
+                                <input type="radio" name="guarantee" value="Hayır" checked> Garanti Yok
+                            </label>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="button" style="width: 100%; margin-top: 24px;">İlanı Gönder</button>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <p>&copy; 2026 Araba Dünyası. Tüm Hakları Saklıdır.</p>
+    </footer>
+
+    <script>
+        const form = document.getElementById("carForm");
+        const imagesInput = document.getElementById("images");
+        const fuelSelect = document.getElementById("fuel");
+        const motorInput = document.getElementById("motorgücü");
+
+        form.addEventListener("submit", function (event) {
+            const marka = document.getElementById("Marka").value.trim();
+            const year = Number(document.getElementById("year").value);
+            const kilometre = Number(document.getElementById("Kilometre").value);
+
+            if (!marka) {
+                alert("Marka alanı boş bırakılamaz!");
+                event.preventDefault();
+                return;
+            }
+            if (year < 2010 || year > 2026) {
+                alert("Yıl 2010 ile 2026 arasında olmalıdır!");
+                event.preventDefault();
+                return;
+            }
+            if (kilometre < 0) {
+                alert("Kilometre 0'dan küçük olamaz!");
+                event.preventDefault();
+                return;
+            }
+
+            // Form verilerini localStorage'a kaydet
+            const formData = new FormData(form);
+            const data = Object.fromEntries(formData);
+            let ads = JSON.parse(localStorage.getItem('ads') || '[]');
+            ads.push(data);
+            localStorage.setItem('ads', JSON.stringify(ads));
+
+            alert("İlanınız başarıyla kaydedildi!");
+            form.reset();
+            window.location.href = 'ads.html';
+        });
+
+        imagesInput.addEventListener("change", function (event) {
+            const files = event.target.files;
+            const maxSize = 2 * 1024 * 1024;
+            for (const file of files) {
+                if (file.size > maxSize) {
+                    alert(`${file.name} dosyası çok büyük! Maksimum 2MB.`);
+                    event.target.value = "";
+                    break;
+                }
+            }
+        });
+
+        fuelSelect.addEventListener("change", function (event) {
+            if (event.target.value === "Elektrik") {
+                motorInput.value = "Elektrik motor";
+                motorInput.disabled = true;
+            } else {
+                motorInput.disabled = false;
+                if (motorInput.value === "Elektrik motor") {
+                    motorInput.value = "";
+                }
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Araba Dünyası - Araç İlanları</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="site-header">
+        <div class="brand">
+            <a href="index.html">🚗 Araba Dünyası</a>
+        </div>
+        <nav class="main-nav">
+            <a href="index.html">Araçlar</a>
+            <a href="ads.html">İlanlar</a>
+            <a href="form.html">İlan Ver</a>
+        </nav>
+    </header>
+
+    <main class="site-main">
+        <div class="page-header">
+            <div>
+                <h1>Güncel Araç İlanları</h1>
+                <p>Beğendiğiniz aracı seçin, detaylarını inceleyin veya kendi ilanınızı verin.</p>
+            </div>
+            <form class="search-form" id="searchForm" action="" method="get">
+                <input type="search" id="searchInput" placeholder="Marka, seri veya model ara" aria-label="Ara" />
+                <button type="submit">Ara</button>
+            </form>
+        </div>
+
+        <div id="message" style="display: none;" class="alert info"></div>
+        <div class="card-grid" id="carsList"></div>
+    </main>
+
+    <footer class="site-footer">
+        <p>&copy; 2026 Araba Dünyası. Tüm Hakları Saklıdır.</p>
+    </footer>
+
+    <script src="data.js"></script>
+    <script>
+        const searchForm = document.getElementById('searchForm');
+        const searchInput = document.getElementById('searchInput');
+        const carsList = document.getElementById('carsList');
+        const message = document.getElementById('message');
+
+        function renderCars(carsToShow) {
+            carsList.innerHTML = '';
+            message.style.display = 'none';
+
+            if (carsToShow.length === 0) {
+                message.textContent = `"${searchInput.value}" için herhangi bir araç bulunamadı.`;
+                message.style.display = 'block';
+                return;
+            }
+
+            carsToShow.forEach(car => {
+                const card = document.createElement('article');
+                card.className = 'car-card';
+                card.innerHTML = `
+                    <img src="images/${car.images[0]}" alt="${car.brand} ${car.series}" />
+                    <div class="card-content">
+                        <h2>${car.brand} ${car.series}</h2>
+                        <p class="car-model">${car.model}</p>
+                        <p class="car-summary">${car.summary}</p>
+                        <div class="meta-row">
+                            <span>${car.year} • ${car.fuel} • ${car.transmission}</span>
+                            <strong>${car.price_text}</strong>
+                        </div>
+                        <a class="button" href="detail.html?slug=${car.slug}">Detayları Gör</a>
+                    </div>
+                `;
+                carsList.appendChild(card);
+            });
+        }
+
+        function loadCars() {
+            const query = searchInput.value.trim();
+            const carsToShow = query ? searchCars(query) : cars;
+            renderCars(carsToShow);
+        }
+
+        searchForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            loadCars();
+        });
+
+        searchInput.addEventListener('input', loadCars);
+
+        // İlk yükleme
+        loadCars();
+    </script>
+</body>
+</html>

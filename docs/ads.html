@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kullanıcı İlanları - Araba Dünyası</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="site-header">
+        <div class="brand">
+            <a href="index.html">🚗 Araba Dünyası</a>
+        </div>
+        <nav class="main-nav">
+            <a href="index.html">Araçlar</a>
+            <a href="ads.html">İlanlar</a>
+            <a href="form.html">İlan Ver</a>
+        </nav>
+    </header>
+
+    <main class="site-main">
+        <div class="page-header">
+            <h1>Kullanıcı İlanları</h1>
+        </div>
+
+        <div id="adsList" class="ads-grid"></div>
+        <div id="emptyMessage" style="text-align: center; padding: 40px 20px;">
+            <p style="color: #64748b; font-size: 1.1rem;">Henüz ilan yok. <a href="form.html" class="button">İlan Ver</a></p>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <p>&copy; 2026 Araba Dünyası. Tüm Hakları Saklıdır.</p>
+    </footer>
+
+    <script>
+        function renderAds() {
+            const adsList = document.getElementById('adsList');
+            const emptyMessage = document.getElementById('emptyMessage');
+            const ads = JSON.parse(localStorage.getItem('ads') || '[]');
+
+            adsList.innerHTML = '';
+            
+            if (ads.length === 0) {
+                emptyMessage.style.display = 'block';
+                return;
+            }
+
+            emptyMessage.style.display = 'none';
+
+            ads.forEach((ad, index) => {
+                const card = document.createElement('article');
+                card.className = 'ad-card';
+                card.innerHTML = `
+                    <h3 style="margin: 0 0 12px 0;">${ad.Marka} ${ad.series}</h3>
+                    <p style="margin: 0 0 12px 0; color: #475569;">${ad.model}</p>
+                    <div class="ad-meta">
+                        <span>${ad.year} • ${ad.Kilometre.toLocaleString('tr-TR')} km</span>
+                        <strong style="color: #2563eb; font-size: 1.1rem;">${ad.price.toLocaleString('tr-TR')} TL</strong>
+                    </div>
+                    <p style="margin: 12px 0; color: #475569;">${ad.summary}</p>
+                    <div style="display: flex; gap: 10px; margin-top: 12px;">
+                        <button class="button-secondary" onclick="editAd(${index})">Düzenle</button>
+                        <button class="button-secondary" onclick="deleteAd(${index})" style="background: #fee2e2; color: #991b1b;">Sil</button>
+                    </div>
+                `;
+                adsList.appendChild(card);
+            });
+        }
+
+        function deleteAd(index) {
+            if (confirm('Bu ilanı silmek istediğinize emin misiniz?')) {
+                let ads = JSON.parse(localStorage.getItem('ads') || '[]');
+                ads.splice(index, 1);
+                localStorage.setItem('ads', JSON.stringify(ads));
+                renderAds();
+            }
+        }
+
+        function editAd(index) {
+            let ads = JSON.parse(localStorage.getItem('ads') || '[]');
+            const ad = ads[index];
+            
+            // Form sayfasına geç ve verileri doldur
+            sessionStorage.setItem('editIndex', index);
+            sessionStorage.setItem('editData', JSON.stringify(ad));
+            window.location.href = 'form.html';
+        }
+
+        // Sayfa yüklendiğinde
+        renderAds();
+    </script>
+</body>
+</html>

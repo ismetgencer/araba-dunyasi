@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Araç Detayları - Araba Dünyası</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="site-header">
+        <div class="brand">
+            <a href="index.html">🚗 Araba Dünyası</a>
+        </div>
+        <nav class="main-nav">
+            <a href="index.html">Araçlar</a>
+            <a href="ads.html">İlanlar</a>
+            <a href="form.html">İlan Ver</a>
+        </nav>
+    </header>
+
+    <main class="site-main">
+        <div id="detail"></div>
+        <a href="index.html" class="button" style="margin-top: 28px; display: inline-block;">← Geri Dön</a>
+    </main>
+
+    <footer class="site-footer">
+        <p>&copy; 2026 Araba Dünyası. Tüm Hakları Saklıdır.</p>
+    </footer>
+
+    <script src="data.js"></script>
+    <script>
+        const detailDiv = document.getElementById('detail');
+        const urlParams = new URLSearchParams(window.location.search);
+        const slug = urlParams.get('slug');
+
+        if (!slug) {
+            detailDiv.innerHTML = '<p style="color: red;">Araç bulunamadı!</p>';
+        } else {
+            const car = findCar(slug);
+            
+            if (!car) {
+                detailDiv.innerHTML = '<p style="color: red;">Böyle bir araç yok!</p>';
+            } else {
+                detailDiv.innerHTML = `
+                    <div class="detail-hero">
+                        <div class="detail-summary">
+                            <span class="badge">${car.guarantee === 'Evet' ? '✓ Garantili' : 'Garanti Yok'}</span>
+                            <h1>${car.brand} ${car.series}</h1>
+                            <p style="color: #64748b; margin: 10px 0 0;">${car.model}</p>
+                        </div>
+                    </div>
+
+                    <div class="detail-grid">
+                        <div>
+                            <div class="gallery">
+                                ${car.images.slice(0, 4).map(img => `
+                                    <div class="gallery-item">
+                                        <img src="images/${img}" alt="${car.brand}" />
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                        <div class="detail-info">
+                            <table>
+                                <tr>
+                                    <th>Fiyat</th>
+                                    <td><strong style="color: #2563eb; font-size: 1.3rem;">${car.price_text}</strong></td>
+                                </tr>
+                                <tr>
+                                    <th>Yıl</th>
+                                    <td>${car.year}</td>
+                                </tr>
+                                <tr>
+                                    <th>Kilometre</th>
+                                    <td>${car.km.toLocaleString('tr-TR')} km</td>
+                                </tr>
+                                <tr>
+                                    <th>Yakıt Türü</th>
+                                    <td>${car.fuel}</td>
+                                </tr>
+                                <tr>
+                                    <th>Vites</th>
+                                    <td>${car.transmission}</td>
+                                </tr>
+                                <tr>
+                                    <th>Gövde Tipi</th>
+                                    <td>${car.body}</td>
+                                </tr>
+                                <tr>
+                                    <th>Güç</th>
+                                    <td>${car.power}</td>
+                                </tr>
+                                <tr>
+                                    <th>Çekiş</th>
+                                    <td>${car.drive}</td>
+                                </tr>
+                                <tr>
+                                    <th>Renk</th>
+                                    <td>${car.color}</td>
+                                </tr>
+                                <tr>
+                                    <th>Kapı Sayısı</th>
+                                    <td>${car.doors}</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div style="background: #f8fafc; padding: 24px; border-radius: 18px; margin-top: 28px;">
+                        <h3>Açıklama</h3>
+                        <p>${car.summary}</p>
+                    </div>
+                `;
+            }
+        }
+    </script>
+</body>
+</html>
