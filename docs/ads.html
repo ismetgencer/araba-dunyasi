@@ -9,7 +9,7 @@
 <body>
     <header class="site-header">
         <div class="brand">
-            <a href="index.html">🚗 Araba Dünyası</a>
+            <a href="index.html">Araba Dünyası</a>
         </div>
         <nav class="main-nav">
             <a href="index.html">Araçlar</a>
@@ -33,61 +33,104 @@
         <p>&copy; 2026 Araba Dünyası. Tüm Hakları Saklıdır.</p>
     </footer>
 
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+    <script src="supabase.js"></script>
     <script>
-        function renderAds() {
-            const adsList = document.getElementById('adsList');
-            const emptyMessage = document.getElementById('emptyMessage');
-            const ads = JSON.parse(localStorage.getItem('ads') || '[]');
+        const adsList = document.getElementById("adsList");
+        const emptyMessage = document.getElementById("emptyMessage");
+        const emptyDefault = emptyMessage.innerHTML;
 
-            adsList.innerHTML = '';
-            
-            if (ads.length === 0) {
-                emptyMessage.style.display = 'block';
+        function escapeHtml(value) {
+            return String(value ?? "")
+                .replaceAll("&", "&amp;")
+                .replaceAll("<", "&lt;")
+                .replaceAll(">", "&gt;")
+                .replaceAll('"', "&quot;");
+        }
+
+        function formatNumber(value) {
+            const number = Number(value);
+            return Number.isFinite(number) ? number.toLocaleString("tr-TR") : "";
+        }
+
+        async function renderAds() {
+            adsList.innerHTML = "";
+            emptyMessage.innerHTML = emptyDefault;
+
+            if (!requireSupabase()) {
+                emptyMessage.style.display = "block";
+                emptyMessage.querySelector("p").textContent = SUPABASE_SETUP_MESSAGE;
                 return;
             }
 
-            emptyMessage.style.display = 'none';
+            const { data, error } = await db
+                .from("ilanlar")
+                .select("*")
+                .order("created_at", { ascending: false });
 
-            ads.forEach((ad, index) => {
-                const card = document.createElement('article');
-                card.className = 'ad-card';
+            if (error) {
+                emptyMessage.style.display = "block";
+                emptyMessage.querySelector("p").textContent = "İlanlar yüklenemedi: " + error.message;
+                return;
+            }
+
+            const ads = data || [];
+            if (ads.length === 0) {
+                emptyMessage.style.display = "block";
+                return;
+            }
+
+            emptyMessage.style.display = "none";
+
+            ads.forEach((ad) => {
+                const card = document.createElement("article");
+                card.className = "ad-card";
                 card.innerHTML = `
-                    <h3 style="margin: 0 0 12px 0;">${ad.Marka} ${ad.series}</h3>
-                    <p style="margin: 0 0 12px 0; color: #475569;">${ad.model}</p>
+                    <h3 style="margin: 0 0 12px 0;">${escapeHtml(ad.marka)} ${escapeHtml(ad.series)}</h3>
+                    <p style="margin: 0 0 12px 0; color: #475569;">${escapeHtml(ad.model)}</p>
                     <div class="ad-meta">
-                        <span>${ad.year} • ${ad.Kilometre.toLocaleString('tr-TR')} km</span>
-                        <strong style="color: #2563eb; font-size: 1.1rem;">${ad.price.toLocaleString('tr-TR')} TL</strong>
+                        <span>${escapeHtml(ad.year)} • ${formatNumber(ad.kilometre)} km</span>
+                        <strong style="color: #2563eb; font-size: 1.1rem;">${formatNumber(ad.price)} TL</strong>
                     </div>
-                    <p style="margin: 12px 0; color: #475569;">${ad.summary}</p>
+                    <p style="margin: 12px 0; color: #475569;">${escapeHtml(ad.summary)}</p>
                     <div style="display: flex; gap: 10px; margin-top: 12px;">
-                        <button class="button-secondary" onclick="editAd(${index})">Düzenle</button>
-                        <button class="button-secondary" onclick="deleteAd(${index})" style="background: #fee2e2; color: #991b1b;">Sil</button>
+                        <button type="button" class="button-secondary" data-action="edit" data-id="${escapeHtml(ad.id)}">Düzenle</button>
+                        <button type="button" class="button-secondary" data-action="delete" data-id="${escapeHtml(ad.id)}" style="background: #fee2e2; color: #991b1b;">Sil</button>
                     </div>
                 `;
                 adsList.appendChild(card);
             });
         }
 
-        function deleteAd(index) {
-            if (confirm('Bu ilanı silmek istediğinize emin misiniz?')) {
-                let ads = JSON.parse(localStorage.getItem('ads') || '[]');
-                ads.splice(index, 1);
-                localStorage.setItem('ads', JSON.stringify(ads));
-                renderAds();
+        async function deleteAd(id) {
+            if (!confirm("Bu ilanı silmek istediğinize emin misiniz?")) {
+                return;
             }
+            if (!requireSupabase()) {
+                return;
+            }
+            const { error } = await db.from("ilanlar").delete().eq("id", id);
+            if (error) {
+                alert("Silinemedi: " + error.message);
+                return;
+            }
+            renderAds();
         }
 
-        function editAd(index) {
-            let ads = JSON.parse(localStorage.getItem('ads') || '[]');
-            const ad = ads[index];
-            
-            // Form sayfasına geç ve verileri doldur
-            sessionStorage.setItem('editIndex', index);
-            sessionStorage.setItem('editData', JSON.stringify(ad));
-            window.location.href = 'form.html';
-        }
+        adsList.addEventListener("click", function (event) {
+            const button = event.target.closest("button[data-action]");
+            if (!button) {
+                return;
+            }
+            if (button.dataset.action === "edit") {
+                window.location.href = "form.html?id=" + encodeURIComponent(button.dataset.id);
+                return;
+            }
+            if (button.dataset.action === "delete") {
+                deleteAd(button.dataset.id);
+            }
+        });
 
-        // Sayfa yüklendiğinde
         renderAds();
     </script>
 </body>
