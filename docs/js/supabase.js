@@ -5,7 +5,7 @@ const SUPABASE_URL = "https://sywyhfdnbfxqzphyxxzq.supabase.co";
 const SUPABASE_ANON_KEY = "sb_publishable_agO0j8vBDK41GFymUcW0QA_uADXcqMf";
 
 const SUPABASE_SETUP_MESSAGE =
-    "Supabase ayarı eksik. docs/supabase.js içine Project URL ve anon public anahtarını yaz. Tablo için docs/supabase.sql dosyasını SQL Editor'da bir kez çalıştır.";
+    "Supabase ayarı eksik. docs/js/supabase.js içine Project URL ve anon public anahtarını yaz. Tablo için supabase/schema.sql dosyasını SQL Editor'da bir kez çalıştır.";
 
 function supabaseConfigured() {
     return (
